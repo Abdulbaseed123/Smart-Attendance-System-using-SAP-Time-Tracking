@@ -1,0 +1,48 @@
+unmanaged implementation in class zbp_106_att_hdr unique;
+strict ( 2 );
+
+/* --- RULES FOR THE PARENT (TIMESHEET HEADER) --- */
+define behavior for ZI_106_ATT_HDR alias TimesheetHeader
+lock master
+authorization master ( instance )
+{
+  create; update; delete;
+
+
+  association _Entries { create; }
+
+  field ( mandatory ) TimesheetID;
+
+  mapping for zz106_att_hdr
+  {
+    TimesheetID  = timesheet_id;
+    EmployeeID   = emp_id;
+    EmployeeName = emp_name;
+    MonthYear    = month_year;
+    Status       = status;
+  }
+}
+
+/* --- RULES FOR THE CHILD (DAILY ENTRIES) --- */
+define behavior for ZI_106_ATT_ITM alias AttendanceEntry
+lock dependent by _Timesheet
+authorization dependent by _Timesheet
+{
+  update; delete;
+
+
+  association _Timesheet;
+
+  field ( mandatory ) EntryDate;
+  field ( readonly ) TimesheetID;
+
+  mapping for zz106_att_itm
+  {
+    TimesheetID  = timesheet_id;
+    EntryDate    = entry_date;
+    CheckInTime  = check_in;
+    CheckOutTime = check_out;
+    WorkLocation = work_location;
+    HoursWorked  = hours_worked;
+  }
+}

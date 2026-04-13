@@ -1,0 +1,16 @@
+projection;
+strict ( 2 );
+
+define behavior for ZC_106_ATT_HDR alias TimesheetHeader
+{
+  use create; use update; use delete;
+
+
+  use association _Entries { create; }
+}
+
+define behavior for ZC_106_ATT_ITM alias AttendanceEntry
+{
+  use update; use delete;
+  use association _Timesheet;
+}

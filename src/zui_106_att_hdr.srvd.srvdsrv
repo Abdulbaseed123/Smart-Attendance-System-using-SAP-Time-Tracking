@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service for Smart Attendance'
+define service ZUI_106_ATT_HDR {
+  expose ZC_106_ATT_HDR as TimesheetHeader;
+  expose ZC_106_ATT_ITM as AttendanceEntry;
+}
